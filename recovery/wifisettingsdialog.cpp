@@ -41,14 +41,14 @@ WifiSettingsDialog::WifiSettingsDialog(const QString &preferredInterface, QWidge
         }
         else
         {
-            QMessageBox::critical(parent, tr("No wifi interfaces"), tr("No wifi interfaces available"), QMessageBox::Close);
+            QMessageBox::critical(parent, tr("没有wifi接口"), tr("没有wifi接口可用"), QMessageBox::Close);
             close();
         }
     }
 
     _interface = WpaFactory::createInterfaceProxy(_ifpath, this);
     _ifname = _interface->ifname();
-    qDebug() << "Using wifi interface" << _ifname;
+    qDebug() << "使用wifi接口" << _ifname;
 
     _currentBSS = _interface->currentBSS();
     connect(_interface, SIGNAL(BSSAdded(QDBusObjectPath,QVariantMap)), this, SLOT(onBSSAdded(QDBusObjectPath)));
@@ -104,7 +104,7 @@ void WifiSettingsDialog::onBSSAdded(const QDBusObjectPath &path)
     properties.insert("WPS", bss->wPS());
     properties.insert("RSN", bss->rSN());
     properties.insert("Frequency", bss->frequency());
-    qDebug() << "New BSS detected:" << path.path() << ssid << "freq" << bss->frequency() << "WPS support:" << bss->wPS();
+    qDebug() << "检测到新的BSS：" << path.path() << ssid << "freq" << bss->frequency() << "WPS支持：" << bss->wPS();
 
     if (ui->list->findItems(ssid, Qt::MatchExactly).count() )
     {
