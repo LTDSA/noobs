@@ -1,62 +1,62 @@
 # NOOBS (New Out of Box Software)
-#### An easy Operating System installer for the Raspberry Pi
+#### Raspberry Pi的简易操作系统安装程序
 
-NOOBS is designed to make it easy to select and install operating systems for the Raspberry Pi without having to worry about manually imaging your SD card.
+NOOBS旨在为Raspberry Pi轻松选择和安装操作系统，而无需担心手动烧写SD卡。
 
-The latest official release of NOOBS can be downloaded from http://downloads.raspberrypi.org/NOOBS_latest
+最新的NOOBS正式版可以从http://downloads.raspberrypi.org/NOOBS_latest下载
 
-For information on previous releases and version changelists, visit https://github.com/raspberrypi/noobs/releases
+有关以前版本和版本更改列表的信息，请访问https://github.com/raspberrypi/noobs/releases
 
 ![alt text](screenshots/os_installed.png "NOOBS Interface")
 
-<sup>*NOTE: The list of OSes in this image is indicative only. It will vary according to your Raspberry Pi model and the availability of OSes on our remote download repository.</sup>
+<sup>*注意：此图片中的操作系统列表仅供参考。 它将根据您的Raspberry Pi型号和我们的远程下载存储库中的操作系统的可用性而有所不同。</sup>
 
-### About
-On first boot NOOBS will format your SD card and allow you to select which OSes you want to install from a list. This OS list is automatically generated from both locally available OSes (i.e. those contained in the `/os` directory on disk) or those available from our remote repository (network connection required).
+### 关于
+首次启动时，NOOBS将格式化您的SD卡，并允许您从列表中选择要安装的操作系统。 此操作系统列表是从本地可用的操作系统（即磁盘上`/os`目录中包含的操作系统）或我们的远程存储库中提供的操作系统（需要网络连接）自动生成的。
 
-Only the latest version of each OS will ever be displayed meaning that you can be sure that you have installed the most up-to-date release of your selected OS.
+只显示每个操作系统的最新版本，这意味着您可以确定已安装所选操作系统的最新版本。
 
-On any subsequent boot you can then press the SHIFT key to enter the NOOBS interface and easily reinstall your choice of OSes.
+在任何后续启动时，您可以按SHIFT键进入NOOBS界面并轻松重新安装您选择的操作系统。
 
-The NOOBS interface provides the following functionality:
-- <b>Install</b>: Installs the selected OSes onto your SD card. Changing this selection erases all OSes currently installed.
-- <b>Edit Config</b>: Opens a text editor allowing the cmdline and config for the selected installed OS to be edited.
-- <b>Online Help</b>: [Networking Required] Open a browser that displays the Raspberry Pi Help page ( http://www.raspberrypi.org/help/ ), allowing people to quickly access help and troubleshooting.
-- <b>Exit</b>: Quits NOOBS and reboots the Pi into the OS boot menu.
-- <b>Language Selection</b>: Allows you to select the language to be displayed.
-- <b>Keyboard Layout Selection</b>: Allows you to select the keyboard layout to be used.
-- <b>Display Mode Selection</b>: By default, NOOBS will output over HDMI at your display's preferred resolution, even if no HDMI display is connected. If you do not see any output on your HDMI display or are using the composite output, press 1, 2, 3 or 4 on your keyboard to select HDMI preferred mode, HDMI safe mode, composite PAL mode or composite NTSC mode respectively.
+NOOBS界面提供以下功能：
+- <b>安装</b>：将选定的操作系统安装到SD卡上。 更改此选择将删除当前安装的所有操作系统。
+- <b>编辑配置</b>：打开文本编辑器，允许编辑所选已安装操作系统的cmdline和config。
+- <b>在线帮助</b>：[需要联网]打开显示Raspberry Pi帮助页面（http://www.raspberrypi.org/help/）的浏览器，允许人们快速访问帮助和疑难解答。
+- <b>退出</b>：退出NOOBS并将Pi重新启动到操作系统启动菜单中。
+- <b>语言选择</b>：允许您选择要显示的语言。
+- <b>键盘布局选择</b>：允许您选择要使用的键盘布局。
+- <b>显示模式选择</b>：默认情况下，即使没有连接HDMI显示器，NOOBS也会以显示器的首选分辨率通过HDMI输出。 如果在HDMI显示器上没有看到任何输出或正在使用复合输出，请按键盘上的1、2、3或4分别选择HDMI首选模式，HDMI安全模式，复合PAL模式或复合NTSC模式。
 
-Note that all user settings (language, keyboard layout, display mode) will persist between reboots and will also be automatically passed to the installed OSes. This means that if you can see the NOOBS interface on your display device then you should be able to see the OS CLI/GUI when it boots too!
-### Setup
+请注意，所有用户设置（语言，键盘布局，显示模式）将在重新启动之间保持不变，并且还将自动传递到已安装的操作系统。这意味着如果您可以在显示设备上看到NOOBS接口，那么您应该能够在启动时看到操作系统CLI/GUI！
+### 设置
 
-To set up a blank SD card with NOOBS:
-- Format an SD card that is 8GB or greater in size as FAT32 (see instructions on how to do this below)
-- Download and extract the files from the NOOBS zip file. (Windows built-in zip features may have trouble with this file. If so, use another program such as [7zip](http://www.7-zip.org/).)
-- Copy the extracted files onto the SD card that you just formatted so that this file is at the root directory of the SD card.
-<b> Please note that in some cases it may extract the files into a folder, if this is the case then please copy across the files from inside the folder rather than the folder itself.</b>
+使用NOOBS设置空白SD卡：
+- 将8GB或更大的SD卡格式化为FAT32（请参阅下面有关如何执行此操作的说明）
+- 从NOOBS zip文件下载并解压缩文件。（Windows内置的zip功能可能会遇到此文件的问题。如果是这样，请使用其他程序，如[7zip](http://www.7-zip.org/)。）
+- 将提取的文件复制到刚刚格式化的SD卡上，以便该文件位于SD卡的根目录下。
+<b> 请注意，在某些情况下，它可能会将文件解压缩到一个文件夹中，如果是这种情况，请复制文件夹内的文件而不是文件夹本身。</b>
 
-On first boot the "RECOVERY" FAT partition will be automatically resized to a minimum and a list of OSes that are available to install will be displayed.
+首次启动时，“RECOVERY”FAT分区将自动调整为最小值，并显示可安装的操作系统列表。
 
-### Operating System Choice
+### 操作系统选择
 
-NOOBS is available in 2 formats:
-- `NOOBS Full` includes the installation files for Raspbian only.
-- `NOOBS-Lite` does not include any Operating Systems at all.
+NOOBS有两种格式：
+- `NOOBS Full`仅包含Raspbian的安装文件。
+- `NOOBS-Lite`根本不包括任何操作系统。
 
-#### OS Network Download
+#### 操作系统网络下载
 
-Both versions of NOOBS allow additional Operating Systems to be downloaded from our remote repository. To do this, the Raspberry Pi must be connected to a wired network, or it can connect over Wifi using the [Raspberry Pi USB wifi dongle](https://www.raspberrypi.org/products/usb-wifi-dongle/) or the Raspberry Pi 3 Model B built-in wifi. 
+两个版本的NOOBS都允许从我们的远程存储库下载其他操作系统。 要做到这一点，Raspberry Pi必须连接到有线网络，或者它可以使用[Raspberry Pi USB wifi加密狗](https://www.raspberrypi.org/products/usb-wifi-dongle/)或Raspberry Pi 3 Model B内置wifi连接到Wifi网络。
 
-Once connected, the Pi will only show a list of Operating Systems that are appropriate to your Pi Model. If you want to see ALL available OSes, edit the `recovery.cmdline` file in the root NOOBS directory and append `showall` to the arguments list.
+连接后，Pi将仅显示适合您的Pi型号的操作系统列表。如果要查看所有可用的操作系统，请编辑根NOOBS目录中的`recovery.cmdline`文件，并将`showall`附加到参数列表中。
 
-#### Wired Networks
+#### 有线网络
 
-If a wired ethernet cable is plugged into the Pi before NOOBS starts, NOOBS will connect via DHCP to our remote download repository and present a list of available Operating Systems that are available for installation.
+如果在NOOBS启动之前将有线以太网电缆插入Pi，则NOOBS将通过DHCP连接到我们的远程下载存储库，并显示可用于安装的可用操作系统列表。
 
-#### Wifi Networks
+#### Wifi网络
 
-If you have the official [Raspberry Pi USB wifi Dongle](https://www.raspberrypi.org/products/usb-wifi-dongle/), or are using the Raspberry Pi 3 Model B with built-in wifi, the wifi icon on the NOOBS toolbar will be available. Click on this to select your Wifi SSID network and enter the wifi password. 
+如果你有官方的[Raspberry Pi USB wifi加密狗](https://www.raspberrypi.org/products/usb-wifi-dongle/)，或者正在使用内置wifi的Raspberry Pi 3 Model B，NOOBS工具栏上的wifi图标将可用。 单击此按钮选择您的Wifi SSID网络并输入wifi密码。
 
 ![alt text](screenshots/wifi_selector.png "Select your wifi network and enter the password")
 
