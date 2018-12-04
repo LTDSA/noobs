@@ -1,9 +1,9 @@
-# NOOBS (New Out of Box Software)
+# NOOBS
 #### Raspberry Pi的简易操作系统安装程序
 
 NOOBS旨在为Raspberry Pi轻松选择和安装操作系统，而无需担心手动烧写SD卡。
 
-最新的NOOBS正式版可以从http://downloads.raspberrypi.org/NOOBS_latest下载
+最新的NOOBS正式版可以从http://downloads.raspberrypi.org/NOOBS_latest 下载
 
 有关以前版本和版本更改列表的信息，请访问https://github.com/raspberrypi/noobs/releases
 
