@@ -1,9 +1,9 @@
-/* Language selection dialog
+/* 语言选择对话框
  *
- * Initial author: Floris Bos
- * Maintained by Raspberry Pi
+ * 第一作者：Floris Bos
+ * 由Raspberry Pi维护
  *
- * See LICENSE.txt for license details
+ * 有关许可证详细信息，请参阅LICENSE.txt
  *
  */
 
@@ -22,16 +22,16 @@
 #include <QProcess>
 #include <QSettings>
 
-/* Extra strings for lupdate to detect and hand over to translator to translate */
+/* 用于更新的额外字符串，用于检测并移交给翻译人员进行翻译 */
 #if 0
-QT_TRANSLATE_NOOP("QDialogButtonBox","OK")
-QT_TRANSLATE_NOOP("QDialogButtonBox","&OK")
-QT_TRANSLATE_NOOP("QDialogButtonBox","Cancel")
-QT_TRANSLATE_NOOP("QDialogButtonBox","&Cancel")
-QT_TRANSLATE_NOOP("QDialogButtonBox","Close")
-QT_TRANSLATE_NOOP("QDialogButtonBox","&Close")
-QT_TRANSLATE_NOOP("QDialogButtonBox","&Yes")
-QT_TRANSLATE_NOOP("QDialogButtonBox","&No")
+QT_TRANSLATE_NOOP("QDialogButtonBox","确定")
+QT_TRANSLATE_NOOP("QDialogButtonBox","&确定")
+QT_TRANSLATE_NOOP("QDialogButtonBox","取消")
+QT_TRANSLATE_NOOP("QDialogButtonBox","&取消")
+QT_TRANSLATE_NOOP("QDialogButtonBox","关闭")
+QT_TRANSLATE_NOOP("QDialogButtonBox","&关闭")
+QT_TRANSLATE_NOOP("QDialogButtonBox","&是")
+QT_TRANSLATE_NOOP("QDialogButtonBox","&否")
 #endif
 
 LanguageDialog *LanguageDialog::_instance = NULL;
@@ -45,8 +45,8 @@ LanguageDialog::LanguageDialog(const QString &defaultLang, const QString &defaul
 
     setAttribute(Qt::WA_ShowWithoutActivating);
 
-    qDebug() << "Default language is " << defaultLang;
-    qDebug() << "Default keyboard layout is " << defaultKeyboard;
+    qDebug() << "默认语言是" << defaultLang;
+    qDebug() << "默认键盘布局是" << defaultKeyboard;
 
     QSettings settings("/settings/noobs.conf", QSettings::IniFormat, this);
     QString savedLang = settings.value("language", defaultLang).toString();
@@ -67,7 +67,7 @@ LanguageDialog::LanguageDialog(const QString &defaultLang, const QString &defaul
     ui->langCombo->addItem(QIcon(":/icons/gb.png"), "English (UK)", "gb");
     ui->langCombo->addItem(QIcon(":/icons/us.png"), "English (US)", "us");
 
-    /* Search for translation resource files */
+    /* 搜索翻译资源文件 */
     QDir dir(":/", "translation_*.qm");
     QStringList translations = dir.entryList();
 
@@ -76,12 +76,12 @@ LanguageDialog::LanguageDialog(const QString &defaultLang, const QString &defaul
         QString langcode = langfile.mid(12);
         langcode.chop(3);
         QLocale loc(langcode);
-        /* Display languagename in English, e.g. German, French */
+        /* 用英语显示语言名称，例如 德语，法语 */
         /* QString languagename = QLocale::languageToString(loc.language()); */
-        /* should Display languagename in native language, e.g. Deutsch, Français  */
+        /* 应以母语显示语言名称，例如 Deutsch，Français  */
         QString languagename = loc.nativeLanguageName();
 
-        /* Exception for Asturian (not in ISO639-1) */
+        /* 阿斯图里亚斯的例外情况（不在ISO 639-1中） */
         if (langcode.compare("ast", Qt::CaseInsensitive) == 0)
             languagename = "Asturian";
 
@@ -124,7 +124,7 @@ void LanguageDialog::changeKeyboardLayout(const QString &langcode)
     Q_UNUSED(langcode)
 #endif
 
-        // Save new language choice to INI files
+        // 将新语言选择保存到INI文件
         QSettings settings("/settings/noobs.conf", QSettings::IniFormat, this);
         settings.setValue("keyboard_layout", langcode);
         settings.sync();
@@ -153,7 +153,7 @@ void LanguageDialog::changeLanguage(const QString &langcode)
     {
         /* qt_<languagecode>.qm are generic language translation files provided by the Qt team
          * this can translate common things like the "OK" and "Cancel" button of dialog boxes
-         * Unfortuneately, they are not available for all languages, but use one if we have one. */
+         * 不幸的是，它们不适用于所有语言，但如果我们有一种语言，则使用一种语言。 */
         if ( QFile::exists(":/qt_"+langcode+".qm" ))
         {
             _qttrans = new QTranslator();
@@ -170,7 +170,7 @@ void LanguageDialog::changeLanguage(const QString &langcode)
         }
     }
 
-    /* Update keyboard layout */
+    /* 更新键盘布局 */
     QString defaultKeyboardLayout;
     if (langcode == "nl")
     {
@@ -194,7 +194,7 @@ void LanguageDialog::changeLanguage(const QString &langcode)
 
     if (idx == -1)
     {
-        /* Default to US keyboard layout if there is no keyboard layout for the language */
+        /* 如果没有该语言的键盘布局，则默认为美国键盘布局 */
         idx = ui->keyCombo->findData("us");
     }
     if (idx != -1)
@@ -204,7 +204,7 @@ void LanguageDialog::changeLanguage(const QString &langcode)
 
     _currentLang = langcode;
 
-    // Save new language choice to INI file
+    // 将新语言选择保存到INI文件
     QSettings settings("/settings/noobs.conf", QSettings::IniFormat, this);
     settings.setValue("language", langcode);
     settings.sync();
