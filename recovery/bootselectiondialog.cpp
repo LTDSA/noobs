@@ -1,9 +1,9 @@
-/* Boot selection menu
+/* 启动选择菜单
  *
- * Initial author: Floris Bos
- * Maintained by Raspberry Pi
+ * 第一作者：Floris Bos
+ * 由Raspberry Pi维护
  *
- * See LICENSE.txt for license details
+ * 有关许可证详细信息，请参阅LICENSE.txt
  *
  */
 
@@ -42,14 +42,14 @@ BootSelectionDialog::BootSelectionDialog(const QString &drive, const QString &de
     if (QProcess::execute("mount -o remount,ro /settings") != 0
         && QProcess::execute("mount -t ext4 -o ro "+partdev(drive, SETTINGS_PARTNR)+" /settings") != 0)
     {
-        QMessageBox::critical(this, tr("Cannot display boot menu"), tr("Error mounting settings partition"));
+        QMessageBox::critical(this, tr("无法显示启动菜单"), tr("挂载设置分区时出错"));
         return;
     }
 
-    /* Also mount recovery partition as it may contain icons we need */
+    /* 还安装recovery分区，因为它可能包含我们需要的图标 */
     if (QProcess::execute("mount -t vfat -o ro "+partdev(drive, 1)+" /mnt") != 0)
     {
-        /* Not fatal if this fails */
+        /* 如果失败则不致命 */
     }
 
     QVariantList installed_os = Json::loadFromFile("/settings/installed_os.json").toList();
@@ -67,7 +67,7 @@ BootSelectionDialog::BootSelectionDialog(const QString &drive, const QString &de
             QList<QSize> avs = icon.availableSizes();
             if (avs.isEmpty())
             {
-                /* Icon file corrupt */
+                /* 图标文件损坏 */
                 icon = QIcon();
             }
             else
@@ -76,7 +76,7 @@ BootSelectionDialog::BootSelectionDialog(const QString &drive, const QString &de
 
                 if (iconsize.width() > currentsize.width() || iconsize.height() > currentsize.height())
                 {
-                    /* Make all icons as large as the largest icon we have */
+                    /* 使所有图标与我们拥有的最大图标一样大 */
                     currentsize = QSize(qMax(iconsize.width(), currentsize.width()),qMax(iconsize.height(), currentsize.height()));
                     ui->list->setIconSize(currentsize);
                 }
@@ -91,21 +91,21 @@ BootSelectionDialog::BootSelectionDialog(const QString &drive, const QString &de
 
     if (ui->list->count() != 0)
     {
-        // If default boot partition set then boot to that after 5 seconds
+        // 如果默认启动分区设置，则在5秒后启动到该启动分区
         QSettings settings("/settings/noobs.conf", QSettings::IniFormat, this);
         int partition = settings.value("default_partition_to_boot", defaultPartition).toInt();
 
         if (partition != 800)
         {
-            // Start timer
-            qDebug() << "Starting 10 second timer before booting into partition" << partition;
+            // 启动计时器
+            qDebug() << "在启动分区之前启动10秒计时器" << partition;
             _timer.setInterval(1000);
             connect(&_timer, SIGNAL(timeout()), this, SLOT(countdown()));
             _timer.start();
             countdown();
             ui->list->installEventFilter(this);
 
-            // Select OS booted previously
+            // 选择之前启动的操作系统
             QString partnrStr = QString::number(partition);
             QRegExp partnrRx("([0-9]+)$");
             for (int i=0; i<ui->list->count(); i++)
@@ -114,7 +114,7 @@ BootSelectionDialog::BootSelectionDialog(const QString &drive, const QString &de
                 QString bootpart = m.value("partitions").toList().first().toString();
                 if (partnrRx.indexIn(bootpart) != -1 && partnrRx.cap(1) == partnrStr)
                 {
-                    qDebug() << "Previous OS at" << bootpart;
+                    qDebug() << "以前的操作系统" << bootpart;
                     ui->list->setCurrentRow(i);
                     break;
                 }
@@ -127,7 +127,7 @@ BootSelectionDialog::BootSelectionDialog(const QString &drive, const QString &de
     }
     if (ui->list->count() == 1)
     {
-        // Only one OS, boot that
+        // 只有一个操作系统，启动它
         qDebug() << "accepting";
         QTimer::singleShot(1, this, SLOT(accept()));
     }
@@ -143,7 +143,7 @@ void BootSelectionDialog::bootPartition()
 {
     QSettings settings("/settings/noobs.conf", QSettings::IniFormat, this);
     QByteArray partition = settings.value("default_partition_to_boot", 800).toByteArray();
-    qDebug() << "Booting partition" << partition;
+    qDebug() << "正在引导分区" << partition;
     setRebootPartition(partition);
     QDialog::accept();
 }
@@ -162,7 +162,7 @@ void BootSelectionDialog::accept()
     QRegExp parttype("^PARTUUID");
     if (parttype.indexIn(partition) == -1)
     {
-        // SD card style /dev/mmcblk0pDD
+        // SD卡样式 /dev/mmcblk0pDD
         QRegExp partnrRx("([0-9]+)$");
         if (partnrRx.indexIn(partition) == -1)
         {
@@ -173,11 +173,11 @@ void BootSelectionDialog::accept()
     }
     else
     {
-        // USB style PARTUUID=000dbedf-XX
+        // USB样式 PARTUUID=000dbedf-XX
         QRegExp partnrRx("([0-9a-f][0-9a-f])$");
         if (partnrRx.indexIn(partition) == -1)
         {
-            QMessageBox::critical(this, "installed_os.json corrupt", "Not a valid partition: "+partition);
+            QMessageBox::critical(this, "installed_os.json corrupt", "不是有效的分区："+partition);
             return;
         }
         bool ok;
@@ -188,7 +188,7 @@ void BootSelectionDialog::accept()
 
     if (partitionNr != oldpartitionNr)
     {
-        // Save OS boot choice as the new default
+        // 将操作系统启动选项保存为新的默认值
         QProcess::execute("mount -o remount,rw /settings");
         settings.setValue("default_partition_to_boot", partitionNr);
         settings.sync();
@@ -209,35 +209,35 @@ void BootSelectionDialog::setDisplayMode()
     QString cmd, mode;
     QSettings settings("/settings/noobs.conf", QSettings::IniFormat, this);
 
-    /* Restore saved display mode */
+    /* 恢复已保存的显示模式 */
     int modenr = settings.value("display_mode", 0).toInt();
 
     switch (modenr)
     {
     case 1:
         cmd  = "-e \'DMT 4 DVI\'";
-        mode = tr("HDMI safe mode");
+        mode = tr("HDMI安全模式");
         break;
     case 2:
         cmd  = "-c \'PAL 4:3\'";
-        mode = tr("composite PAL mode");
+        mode = tr("复合PAL模式");
         break;
     case 3:
         cmd  = "-c \'NTSC 4:3\'";
-        mode = tr("composite NTSC mode");
+        mode = tr("复合NTSC模式");
         break;
 
     default:
         return;
     }
 
-    // Trigger framebuffer resize
+    // 触发帧缓冲区调整大小
     QProcess *presize = new QProcess(this);
     presize->start(QString("sh -c \"tvservice -o; tvservice %1;\"").arg(cmd));
     presize->waitForFinished(4000);
 
-    // Update screen resolution with current value (even if we didn't
-    // get what we thought we'd get)
+    // 使用当前值更新屏幕分辨率（即使我们没有
+    // 得到我们认为我们得到的）
     QProcess *update = new QProcess(this);
     update->start(QString("sh -c \"tvservice -s | cut -d , -f 2 | cut -d \' \' -f 2 | cut -d x -f 1;tvservice -s | cut -d , -f 2 | cut -d \' \' -f 2 | cut -d x -f 2\""));
     update->waitForFinished(4000);
@@ -250,13 +250,13 @@ void BootSelectionDialog::setDisplayMode()
     getOverscan(oTop, oBottom, oLeft, oRight);
     QScreen::instance()->setMode(xres-oLeft-oRight, yres-oTop-oBottom, 16);
 
-    // Update UI item locations
+    // 更新UI项目位置
     QRect s = QApplication::desktop()->screenGeometry();
     if (s.height() < 400)
         resize(s.width()-10, s.height()-100);
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), qApp->desktop()->availableGeometry()));
 
-    // Refresh screen
+    // 刷新屏幕
     qApp->processEvents();
     QWSServer::instance()->refresh();
 #endif
@@ -275,12 +275,12 @@ bool BootSelectionDialog::eventFilter(QObject *obj, QEvent *event)
 void BootSelectionDialog::stopCountdown()
 {
     _timer.stop();
-    setWindowTitle(tr("Select OS to boot"));
+    setWindowTitle(tr("选择要启动的操作系统"));
 }
 
 void BootSelectionDialog::countdown()
 {
-    setWindowTitle(tr("Previously selected OS will boot in %1 seconds").arg(--_countdown));
+    setWindowTitle(tr("之前选择的操作系统将在％1秒内启动").arg(--_countdown));
     if (_countdown == 0)
     {
         _timer.stop();
